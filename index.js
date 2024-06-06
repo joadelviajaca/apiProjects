@@ -1,10 +1,12 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
 const port = 3000;
 
 // Middleware para parsear JSON
 app.use(express.json());
-
+app.use(cors());
 // Datos de ejemplo
 const projects = [
     { id: 1, title: 'Project 1', description: 'Description of Project 1', status: 'In Progress' },
