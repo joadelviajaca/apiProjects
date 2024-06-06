@@ -61,6 +61,24 @@ app.put('/projects/:id', (req, res) => {
     }
 });
 
+// Ruta para eliminar un proyecto existente
+app.delete('/projects/:id', (req, res) => {
+    const projectId = parseInt(req.params.id, 10);
+    const projectIndex = projects.findIndex(proj => proj.id === projectId);
+
+    if (projectIndex !== -1) {
+        projects.splice(projectIndex, 1);
+        res.json({ message: 'Project deleted successfully' });
+    } else {
+        res.status(404).json({ error: 'Project not found' });
+    }
+});
+
+// Iniciar el servidor
+app.listen(port, () => {
+    console.log(`API listening at http://localhost:${port}`);
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`API listening at http://localhost:${port}`);
