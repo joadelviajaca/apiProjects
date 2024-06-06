@@ -32,6 +32,33 @@ app.get('/projects/:id', (req, res) => {
     }
 });
 
+// Ruta para crear un nuevo proyecto
+app.post('/projects', (req, res) => {
+    const { title, description, status } = req.body;
+    const newProject = {
+        id: projects.length ? projects[projects.length - 1].id + 1 : 1,
+        title,
+        description,
+        status
+    };
+    projects.push(newProject);
+    res.status(201).json(newProject);
+});
+
+// Ruta para actualizar un proyecto existente
+app.put('/projects/:id', (req, res) => {
+    const projectId = parseInt(req.params.id, 10);
+    const projectIndex = projects.findIndex(proj => proj.id === projectId);
+
+    if (projectIndex !== -1) {
+        const { title, description, status } = req.body;
+        projects[projectIndex] = { id: projectId, title, description, status };
+        res.json(projects[projectIndex]);
+    } else {
+        res.status(404).json({ error: 'Project not found' });
+    }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`API listening at http://localhost:${port}`);
